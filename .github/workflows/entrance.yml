@@ -21,9 +21,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Pull classes and shout-outs from Mariana Tek
+      - name: Pull today's and tomorrow's classes from Mariana Tek
         env:
-          MT_TOKEN: ${{ secrets.MT_TOKEN }}
+          MT_TOKEN: ${{ secrets.MT_TOKEN }}   # optional: empty = schedule only, no member data
         run: python scripts/entrance_data.py 2
       - name: Publish if anything changed
         run: |
