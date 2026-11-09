@@ -330,7 +330,7 @@ html.rot-90 .tv.live{transform-origin:top left;transform:rotate(-90deg) translat
     slideIdx=(slideIdx+1)%order.length; const key=order[slideIdx];
     tvs.forEach(({el,cf})=>{
       el.querySelectorAll('.slide').forEach(x=>x.classList.toggle('on',x.dataset.slide===key));
-      const light = key==='qt' ? false : order.length===1 ? true : slideIdx%2===1;
+      const light = key==='ft' ? true : key==='sc' ? !order.includes('ft') : false;   // milestones Graphite, first-timers Mist, schedule the opposite of first-timers
       el.classList.toggle('mist', light);
       const mk=el.querySelector('.mark'); mk.classList.remove('draw'); void mk.offsetWidth; mk.classList.add('draw');
       [...el.querySelectorAll('.bars i')].forEach((b,i)=>{b.className='';void b.offsetWidth;if(i<slideIdx)b.className='done';if(i===slideIdx)b.className='run';});
