@@ -207,6 +207,22 @@ html.rot-90 .tv.live{transform-origin:top left;transform:rotate(-90deg) translat
 .sr i{font-style:normal;font-size:2.3cqw;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:.7cqw 1.6cqw;border-radius:99px;border:1px solid var(--hl);color:var(--fs);align-self:center}
 [data-slide="sc"] .note{margin-top:5cqw}
 .names small.ct{font-size:3.4cqw;font-weight:400;letter-spacing:0;color:var(--fs);margin-left:3cqw;vertical-align:middle}
+/* plain backgrounds (9 Nov): nothing animates behind the text */
+.tv .glowA,.tv .glowB,.tv .mark,.tv canvas.silk{display:none!important}
+.bgs .bd{background:#232321}
+.bgs .bm{background:#f2f1ee}
+/* milestones: tighter layout when 3+ so up to 4 fit above the timer band */
+.slide.dense h3{font-size:7.6cqw;margin-top:2.4cqw}
+.slide.dense .ms{grid-template-columns:23cqw 1fr;padding:2.3cqw 0 1.9cqw}
+.slide.dense .ms .n{font-size:11cqw}
+.slide.dense .ms .n small{font-size:4.6cqw}
+.slide.dense .ms .who b{font-size:5.4cqw}
+.slide.dense .ms .who span{font-size:2.8cqw}
+.fit{display:flex;flex-direction:column;min-height:100%;transform-origin:top left}
+/* backgrounds: Ink (true black) instead of Graphite; timer band is Ink too, with a hairline on dark slides */
+.bgs .bd{background:#121212}
+.tv .band,.tv.mist .band{background:#121212}
+.tv:not(.mist) .band{border-top:1px solid rgba(255,255,255,.14)}
 </style>
 <script>(function(){var q=new URLSearchParams(location.search).get('rot');function set(){var r=document.documentElement;r.classList.remove('rot90','rot-90');var land=innerWidth>innerHeight;var d=q===null?'0':q;if(land&&d==='90')r.classList.add('rot90');if(land&&d==='-90')r.classList.add('rot-90');}set();addEventListener('resize',set);})();</script>
 </head><body>
@@ -276,11 +292,11 @@ html.rot-90 .tv.live{transform-origin:top left;transform:rotate(-90deg) translat
   function renderSlides(){
     const one=a=>a.length&&a.every(x=>x.c===a[0].c);
     const lab=x=>x.c.time+' '+x.c.name;
-    const ms = AGG.ms.length ? '<span class="ey">Milestones · '+(one(AGG.ms)?lab(AGG.ms[0]):'today')+'</span><h3>This is what <span class="grad">showing up</span> looks like.</h3><div class="rows">'+
+    const ms = AGG.ms.length ? '<span class="ey">Milestones · '+(one(AGG.ms)?lab(AGG.ms[0]):'today')+'</span><h3>This is what<br><span class="grad">showing up</span><br>looks like.</h3><div class="rows">'+
       AGG.ms.map((m,i)=>'<div class="ms stag" style="animation-delay:'+(.25+i*.15)+'s"><span class="n" data-n="'+m.n+'">'+m.n+(m.yr?'<small>yr</small>':'')+'</span><span class="who"><b>'+m.name+'</b><span>'+msLine(m)+(one(AGG.ms)?'':' · '+m.c.time)+'</span></span></div>').join('')+'</div>' : '';
     const ft = AGG.ft.length ? '<span class="ey">It\'s day one · '+(one(AGG.ft)?lab(AGG.ft[0]):'today')+'</span><h3>'+FT+'</h3><div class="names">'+
       AGG.ft.map((x,i)=>'<div class="stag" style="animation-delay:'+(.25+i*.15)+'s">'+x.name+(one(AGG.ft)?'':'<small class="ct">'+x.c.time+'</small>')+'</div>').join('')+'</div><div class="note stag" style="animation-delay:.6s">The hardest part is walking in. They just did.</div>' : '';
-    tvs.forEach(t=>{t.el.querySelector('[data-slide="ms"]').innerHTML=ms;t.el.querySelector('[data-slide="ft"]').innerHTML=ft;});
+    tvs.forEach(t=>{const s=t.el.querySelector('[data-slide="ms"]');s.innerHTML=ms;s.classList.toggle('dense',AGG.ms.length>=3);t.el.querySelector('[data-slide="ft"]').innerHTML=ft;});
   }
 
   let mode='normal';
@@ -326,6 +342,22 @@ html.rot-90 .tv.live{transform-origin:top left;transform:rotate(-90deg) translat
     const rows=up.map((c,i)=>'<div class="sr stag" style="animation-delay:'+(.2+i*.1)+'s"><span class="st">'+c.time.replace(' ','&nbsp;')+'</span><span class="sn"><b>'+c.name+'</b><span>'+(c.coach?'Coach '+c.coach:'')+'</span></span>'+(i===0?'<i>Next</i>':'')+'</div>').join('');
     return '<span class="ey">Today at Fit Factory</span><h3>Still to come <span class="grad">today.</span></h3><div class="sl">'+rows+'</div><div class="note stag" style="animation-delay:.8s">'+(DATA.names===false?'Book your spot in the Fit Factory app.':'Hit a milestone or take your first class, and your name goes up here.')+'</div>';
   }
+  const BG = window.__BG || 'ink';
+  // shrink a slide's content if it is taller than the space above the timer band, so nothing can be cut off on any screen
+  function fit(slide){
+    let w=slide.querySelector(':scope > .fit');
+    if(!w){ if(!slide.firstChild) return; w=document.createElement('div'); w.className='fit'; while(slide.firstChild) w.appendChild(slide.firstChild); slide.appendChild(w); }
+    let sc=1;
+    for(let i=0;i<4;i++){
+      w.style.width=(100/sc)+'%'; w.style.minHeight=(100/sc)+'%'; w.style.transform=sc<1?'scale('+sc+')':'';
+      const avail=slide.clientHeight, need=w.scrollHeight;
+      if(need*sc<=avail+1) break;
+      sc=Math.max(.6, avail/need);
+    }
+  }
+  function fitAll(el){ el.querySelectorAll('.slide').forEach(fit); }
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(()=>tvs.forEach(({el})=>fitAll(el)));
+  addEventListener('resize',()=>tvs.forEach(({el})=>fitAll(el)));
   function showSlide(){
     clearTimeout(timer);
     const c=classes[curIdx];
@@ -337,10 +369,12 @@ html.rot-90 .tv.live{transform-origin:top left;transform:rotate(-90deg) translat
       const bars=el.querySelector('.bars'); bars.hidden=order.length<2;
       if(bars.children.length!==order.length) bars.innerHTML=order.map(()=>'<i><b></b></i>').join('');
     });
+    if(slideIdx===-1 && window.__START && order.indexOf(window.__START)>0) slideIdx=order.indexOf(window.__START)-1;  // drafts page only
     slideIdx=(slideIdx+1)%order.length; const key=order[slideIdx];
     tvs.forEach(({el,cf})=>{
+      fitAll(el);
       el.querySelectorAll('.slide').forEach(x=>x.classList.toggle('on',x.dataset.slide===key));
-      const light = key==='ft' ? true : key==='sc' ? !order.includes('ft') : false;   // milestones Graphite, first-timers Mist, schedule the opposite of first-timers
+      const light = BG==='mist' ? true : !(key==='ms' || key==='qt');   // A: milestones + wrap on Ink, everything else Mist. B: all Mist
       el.classList.toggle('mist', light);
       const mk=el.querySelector('.mark'); mk.classList.remove('draw'); void mk.offsetWidth; mk.classList.add('draw');
       [...el.querySelectorAll('.bars i')].forEach((b,i)=>{b.className='';void b.offsetWidth;if(i<slideIdx)b.className='done';if(i===slideIdx)b.className='run';});
@@ -444,7 +478,7 @@ void main(){
     }
     requestAnimationFrame(frame);
   }
-  tvs.forEach(({el})=>{ if(el.classList.contains('v-glow')) Silk(el); });
+  // silk light removed 9 Nov: too laggy on the Reception TV; plain backgrounds instead
 
   // gear tick: one tooth (45deg) every 4 s
   if(!reduce){ let deg=0; setInterval(()=>{deg+=45; document.querySelectorAll('.v-tick').forEach(el=>{el.querySelector('.gearsvg').style.transform='rotate('+deg+'deg)'; const g=el.querySelector('.glowA'); g.classList.remove('pulse'); void g.offsetWidth; g.classList.add('pulse');});},4000); }
