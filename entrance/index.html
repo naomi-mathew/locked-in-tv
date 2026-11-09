@@ -206,6 +206,7 @@ html.rot-90 .tv.live{transform-origin:top left;transform:rotate(-90deg) translat
 .sr .sn span{font-size:3cqw;color:var(--fs)}
 .sr i{font-style:normal;font-size:2.3cqw;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:.7cqw 1.6cqw;border-radius:99px;border:1px solid var(--hl);color:var(--fs);align-self:center}
 [data-slide="sc"] .note{margin-top:5cqw}
+.names small.ct{font-size:3.4cqw;font-weight:400;letter-spacing:0;color:var(--fs);margin-left:3cqw;vertical-align:middle}
 </style>
 <script>(function(){var q=new URLSearchParams(location.search).get('rot');function set(){var r=document.documentElement;r.classList.remove('rot90','rot-90');var land=innerWidth>innerHeight;var d=q===null?'0':q;if(land&&d==='90')r.classList.add('rot90');if(land&&d==='-90')r.classList.add('rot-90');}set();addEventListener('resize',set);})();</script>
 </head><body>
@@ -265,11 +266,20 @@ html.rot-90 .tv.live{transform-origin:top left;transform:rotate(-90deg) translat
 
   const msLine=m=>m.yr?'365 days of showing up for yourself.':({50:'Half a century of classes.',100:'Triple digits.',500:'Legend status.'}[m.n]||m.n+' classes stronger.');
   let curFocus=-1;
-  function renderSlides(c){
-    const ms = c.ms.length ? '<span class="ey">Milestones · '+c.time+' '+c.name+'</span><h3>This is what <span class="grad">showing up</span> looks like.</h3><div class="rows">'+
-      c.ms.map((m,i)=>'<div class="ms stag" style="animation-delay:'+(.25+i*.15)+'s"><span class="n" data-n="'+m.n+'">'+m.n+(m.yr?'<small>yr</small>':'')+'</span><span class="who"><b>'+m.name+'</b><span>'+msLine(m)+'</span></span></div>').join('')+'</div>' : '';
-    const ft = c.ft.length ? '<span class="ey">It\'s day one · '+c.time+' '+c.name+'</span><h3>'+c.ftHead+'</h3><div class="names">'+
-      c.ft.map((n,i)=>'<div class="stag" style="animation-delay:'+(.25+i*.15)+'s">'+n+'</div>').join('')+'</div><div class="note stag" style="animation-delay:.6s">The hardest part is walking in. They just did.</div>' : '';
+  // shout-outs for the rest of today (next class first), each tagged with its class time
+  let AGG={ms:[],ft:[]};
+  function gather(fi){
+    const rest=fi<0?[]:classes.slice(fi);
+    return { ms: rest.flatMap(c=>c.ms.map(m=>Object.assign({},m,{c}))).slice(0,4),
+             ft: rest.flatMap(c=>c.ft.map(n=>({name:n,c}))).slice(0,4) };
+  }
+  function renderSlides(){
+    const one=a=>a.length&&a.every(x=>x.c===a[0].c);
+    const lab=x=>x.c.time+' '+x.c.name;
+    const ms = AGG.ms.length ? '<span class="ey">Milestones · '+(one(AGG.ms)?lab(AGG.ms[0]):'today')+'</span><h3>This is what <span class="grad">showing up</span> looks like.</h3><div class="rows">'+
+      AGG.ms.map((m,i)=>'<div class="ms stag" style="animation-delay:'+(.25+i*.15)+'s"><span class="n" data-n="'+m.n+'">'+m.n+(m.yr?'<small>yr</small>':'')+'</span><span class="who"><b>'+m.name+'</b><span>'+msLine(m)+(one(AGG.ms)?'':' · '+m.c.time)+'</span></span></div>').join('')+'</div>' : '';
+    const ft = AGG.ft.length ? '<span class="ey">It\'s day one · '+(one(AGG.ft)?lab(AGG.ft[0]):'today')+'</span><h3>'+FT+'</h3><div class="names">'+
+      AGG.ft.map((x,i)=>'<div class="stag" style="animation-delay:'+(.25+i*.15)+'s">'+x.name+(one(AGG.ft)?'':'<small class="ct">'+x.c.time+'</small>')+'</div>').join('')+'</div><div class="note stag" style="animation-delay:.6s">The hardest part is walking in. They just did.</div>' : '';
     tvs.forEach(t=>{t.el.querySelector('[data-slide="ms"]').innerHTML=ms;t.el.querySelector('[data-slide="ft"]').innerHTML=ft;});
   }
 
@@ -278,9 +288,9 @@ html.rot-90 .tv.live{transform-origin:top left;transform:rotate(-90deg) translat
     const T=tnow(), s=T.s;
     if(T.date!==curDate){curDate=T.date;load(T.date);curFocus=-1;}
     const fi=classes.findIndex(c=>c.start>s), c=fi<0?null:classes[fi];
-    mode = !c ? 'closed' : ((c.ms.length||c.ft.length)?'normal':'quiet');
+    AGG = gather(fi); mode = !c ? 'closed' : ((AGG.ms.length||AGG.ft.length)?'normal':'quiet');
     const key=mode+fi;
-    if(key!==curFocus){curFocus=key;curIdx=fi;if(c)renderSlides(c);slideIdx=-1;showSlide();}
+    if(key!==curFocus){curFocus=key;curIdx=fi;if(c)renderSlides();slideIdx=-1;showSlide();}
     const prev = fi>0?classes[fi-1]:(fi<0&&classes.length?classes[classes.length-1]:null);
     const started = !!prev && s>=prev.start && s<prev.start+(prev.dur||60)*60;
     tvs.forEach(({el})=>{
@@ -319,7 +329,7 @@ html.rot-90 .tv.live{transform-origin:top left;transform:rotate(-90deg) translat
   function showSlide(){
     clearTimeout(timer);
     const c=classes[curIdx];
-    let order = mode==='closed' ? ['qt'] : mode==='normal' ? [c.ms.length?'ms':null,c.ft.length?'ft':null,'sc'].filter(Boolean) : ['sc'];
+    let order = mode==='closed' ? ['qt'] : mode==='normal' ? [AGG.ms.length?'ms':null,AGG.ft.length?'ft':null,'sc'].filter(Boolean) : ['sc'];
     const qt = '<h3>That\'s a <span class="grad">wrap.</span></h3><div class="note">See you tomorrow.</div>';
     const sc = mode==='closed' ? '' : renderSchedule();
     tvs.forEach(({el})=>{
