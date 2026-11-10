@@ -266,6 +266,9 @@ html.rot-90 .tv.live{transform-origin:top left;transform:rotate(-90deg) translat
 .take .tgo{font-size:7cqw;font-weight:500;letter-spacing:-.03em;line-height:1.1}
 .take .ttrack{position:absolute;left:7cqw;right:7cqw;bottom:10cqw;height:1cqw;border-radius:1cqw;background:rgba(255,255,255,.12);overflow:hidden}
 .take .ttrack i{display:block;height:100%;width:0;background:linear-gradient(90deg,#FF6907,#ffb36b);transition:width 1s linear}
+.bdh{font-size:15cqw;font-weight:500;letter-spacing:-.055em;line-height:.92;margin-top:5cqw}
+.bdx{font-size:6cqw;font-weight:500;letter-spacing:-.02em;line-height:1.2;margin-top:auto;margin-bottom:4cqw}
+.bdx b{background:linear-gradient(100deg,#FF6907,#ffb36b);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:500;font-variant-numeric:tabular-nums}
 </style>
 <script>(function(){var q=new URLSearchParams(location.search).get('rot');function set(){var r=document.documentElement;r.classList.remove('rot90','rot-90');var land=innerWidth>innerHeight;var d=q===null?'0':q;if(land&&d==='90')r.classList.add('rot90');if(land&&d==='-90')r.classList.add('rot-90');}set();addEventListener('resize',set);})();</script>
 </head><body>
@@ -290,6 +293,7 @@ html.rot-90 .tv.live{transform-origin:top left;transform:rotate(-90deg) translat
       <div class="slide" data-slide="po"></div>
       <div class="slide" data-slide="lk"></div>
       <div class="slide" data-slide="pu"></div>
+      <div class="slide" data-slide="bd"></div>
     </div>
     <div class="take" data-take><span class="ey" data-take-cls></span><b class="tk grad" data-take-cd></b><div class="tgo">Grab your spot.<br>We start on time.</div><div class="ttrack"><i data-take-track></i></div></div>
     <div class="band">
@@ -338,6 +342,7 @@ html.rot-90 .tv.live{transform-origin:top left;transform:rotate(-90deg) translat
     const all=rest.flatMap(c=>(c.ms||[]).map(m=>Object.assign({},m,{c})));
     const big=all.filter(m=>m.yr||m.n>=50).sort((a,b)=>(b.yr?0:b.n)-(a.yr?0:a.n))[0]||null;
     POSTER=big;
+    BDAYS=rest.flatMap(c=>(c.bd||[]).map(b=>Object.assign({},b,{c}))).slice(0,3);
     return { ms: all.filter(m=>m!==big).slice(0,4),
              ft: rest.flatMap(c=>(c.ft||[]).map(n=>({name:n,c}))).slice(0,4) };
   }
@@ -356,7 +361,7 @@ html.rot-90 .tv.live{transform-origin:top left;transform:rotate(-90deg) translat
     const T=tnow(), s=T.s;
     if(T.date!==curDate){curDate=T.date;load(T.date);curFocus=-1;}
     const fi=classes.findIndex(c=>c.start>s), c=fi<0?null:classes[fi];
-    AGG = gather(fi); mode = !c ? 'closed' : ((AGG.ms.length||AGG.ft.length||POSTER)?'normal':'quiet');
+    AGG = gather(fi); mode = !c ? 'closed' : ((AGG.ms.length||AGG.ft.length||POSTER||BDAYS.length)?'normal':'quiet');
     const key=mode+fi;
     if(key!==curFocus){curFocus=key;curIdx=fi;if(c)renderSlides();slideIdx=-1;showSlide();}
     const taking = !!c && c.start-s<=300 && c.start-s>0;
@@ -451,6 +456,14 @@ html.rot-90 .tv.live{transform-origin:top left;transform:rotate(-90deg) translat
   function renderPoster(m){
     return '<div class="pocard"><div class="pn grad" data-n="'+m.n+'">'+m.n+(m.yr?'<small>yr</small>':'')+'</div><div class="pw">'+(m.yr?(m.n===1?'Year':'Years')+' with Fit Factory':'Classes at Fit Factory')+'</div><div class="pp">'+esc(m.name)+'</div><div class="pt">'+esc(m.c.time+' '+m.c.name)+'</div></div>';
   }
+  function renderBday(list){
+    const one=list.length===1, b=list[0];
+    const first=n=>esc(String(n).split(' ')[0]);
+    if(one) return '<span class="ey">'+esc(b.c.time+' '+b.c.name)+'</span><div class="bdh">Happy birthday,<br><span class="grad">'+first(b.name)+'.</span></div>'+
+      (b.n?'<div class="bdx stag" style="animation-delay:.4s">And it\'s class <b data-n="'+b.n+'">'+b.n+'</b> today.<br>What a way to celebrate.</div>':'<div class="bdx stag" style="animation-delay:.4s">Your Fit Factory crew is glad you\'re here.</div>');
+    return '<span class="ey">Birthdays today</span><div class="bdh">Happy<br><span class="grad">birthday,</span></div><div class="names">'+list.map((x,i)=>'<div class="stag" style="animation-delay:'+(.25+i*.15)+'s">'+esc(x.name)+'<small class="ct">'+esc(x.c.time)+'</small></div>').join('')+'</div>';
+  }
+  let BDAYS=[];
   let LB=null;
   const LB_URL='https://hiuhhdgecehygzaxwfxx.supabase.co/functions/v1/locked-in-board';
   function pullLB(){ getJ(LB_URL).then(j=>{ if(j&&j.top10) LB=j; }).catch(()=>{}); }
@@ -466,14 +479,15 @@ html.rot-90 .tv.live{transform-origin:top left;transform:rotate(-90deg) translat
     const p=pulse(), cells=[[p.b,'booked in today'],[p.n,'classes today']].concat(DATA.names===false?[]:[[p.m,'milestones'],[p.f,'first-timers']]);
     return '<span class="ey">Today at Fit Factory</span><h3>The building is <span class="grad">buzzing.</span></h3><div class="stats">'+cells.map(x=>'<div><b data-n="'+x[0]+'">'+x[0]+'</b><span>'+x[1]+'</span></div>').join('')+'</div><div class="find">You\'re one of them.</div>';
   }
-  const DURS={hy:10000,cr:12000,po:9000,ms:10000,ft:10000,lk:10000,pu:8000,sc:9000,qt:10000};
-  const INK=['hy','po','ms','lk','qt'];
+  const DURS={bd:10000,hy:10000,cr:12000,po:9000,ms:10000,ft:10000,lk:10000,pu:8000,sc:9000,qt:10000};
+  const INK=['hy','po','ms','lk','qt','bd'];
   let ORDER=[], loopN=0, POSTER=null;
   function buildOrder(){
     const c=classes[curIdx];
     if(mode==='closed' || !c) return ['qt'];
     const named=DATA.names!==false, o=['hy'];
     if(named && c.crew && c.crew.length>=3) o.push('cr');
+    if(BDAYS.length) o.push('bd');
     if(POSTER) o.push('po');
     if(AGG.ms.length) o.push('ms');
     if(AGG.ft.length) o.push('ft');
@@ -488,7 +502,7 @@ html.rot-90 .tv.live{transform-origin:top left;transform:rotate(-90deg) translat
     const order=ORDER;
     const html={ qt:'<h3>That\'s a <span class="grad">wrap.</span></h3><div class="note">See you tomorrow.</div>',
       sc: mode==='closed'?'':renderSchedule(), hy: c?renderHype(c):'', cr: c&&c.crew?renderCrew(c):'',
-      po: POSTER?renderPoster(POSTER):'', lk: lbOn()?renderLB():'', pu: renderPulse() };
+      po: POSTER?renderPoster(POSTER):'', bd: BDAYS.length?renderBday(BDAYS):'', lk: lbOn()?renderLB():'', pu: renderPulse() };
     tvs.forEach(({el})=>{
       for(const k in html){ const sl=el.querySelector('[data-slide="'+k+'"]'); if(order.includes(k)) sl.innerHTML=html[k]; }
       const bars=el.querySelector('.bars'); bars.hidden=order.length<2;
@@ -501,8 +515,8 @@ html.rot-90 .tv.live{transform-origin:top left;transform:rotate(-90deg) translat
       el.querySelectorAll('.slide').forEach(x=>x.classList.toggle('on',x.dataset.slide===key));
       el.classList.toggle('mist', BG==='mist' ? true : !INK.includes(key));
       [...el.querySelectorAll('.bars i')].forEach((b,i)=>{b.className='';b.style.setProperty('--dur',(DURS[order[i]]||DUR)+'ms');void b.offsetWidth;if(i<slideIdx)b.className='done';if(i===slideIdx)b.className='run';});
-      if(key==='ms'||key==='po'||key==='pu'){ countUp(el,key); }
-      if((key==='ms'||key==='po') && !reduce) setTimeout(()=>cf.burst(),500);
+      if(key==='ms'||key==='po'||key==='pu'||key==='bd'){ countUp(el,key); }
+      if((key==='ms'||key==='po'||key==='bd') && !reduce) setTimeout(()=>cf.burst(),500);
     });
     if(!reduce && !(order.length===1 && mode==='closed')) timer=setTimeout(showSlide,DURS[key]||DUR);
   }
