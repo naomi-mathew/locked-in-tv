@@ -449,7 +449,7 @@ html.rot-90 .tv.live{transform-origin:top left;transform:rotate(-90deg) translat
     return '<span class="ey">'+esc(c.time+' '+c.name)+'</span><h3>'+dayPart(c.start)+' <span class="grad">crew.</span></h3><div class="crew">'+cells+'</div><div class="find">Find your name. Snap it. Tag @fitfactoryto</div>';
   }
   function renderPoster(m){
-    return '<div class="pocard"><div class="pn grad" data-n="'+m.n+'">'+m.n+(m.yr?'<small>yr</small>':'')+'</div><div class="pw">'+(m.yr?(m.n===1?'Year':'Years')+' with Fit Factory':'Classes at Fit Factory')+'</div><div class="pp">'+esc(m.name)+'</div><div class="pt">'+esc(m.c.time+' '+m.c.name)+' · Snap this. Tag @fitfactoryto</div></div>';
+    return '<div class="pocard"><div class="pn grad" data-n="'+m.n+'">'+m.n+(m.yr?'<small>yr</small>':'')+'</div><div class="pw">'+(m.yr?(m.n===1?'Year':'Years')+' with Fit Factory':'Classes at Fit Factory')+'</div><div class="pp">'+esc(m.name)+'</div><div class="pt">'+esc(m.c.time+' '+m.c.name)+'</div></div>';
   }
   let LB=null;
   const LB_URL='https://hiuhhdgecehygzaxwfxx.supabase.co/functions/v1/locked-in-board';
