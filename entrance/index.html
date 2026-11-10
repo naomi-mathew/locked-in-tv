@@ -269,6 +269,10 @@ html.rot-90 .tv.live{transform-origin:top left;transform:rotate(-90deg) translat
 .bdh{font-size:15cqw;font-weight:500;letter-spacing:-.055em;line-height:.92;margin-top:5cqw}
 .bdx{font-size:6cqw;font-weight:500;letter-spacing:-.02em;line-height:1.2;margin-top:auto;margin-bottom:4cqw}
 .bdx b{background:linear-gradient(100deg,#FF6907,#ffb36b);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:500;font-variant-numeric:tabular-nums}
+/* gradient text: tight letter-spacing pushes the last glyph past its box and the gradient clips it (e.g. the 0 in 50). Pad it back in. */
+.tv .grad{padding-right:.12em;margin-right:-.12em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.pocard .pn,.take .tk,.bdx b,.lbrows div.one span:last-child{padding-right:.12em;margin-right:-.12em;display:inline-block}
+.pocard .pn,.take .tk{padding-left:.04em}
 </style>
 <script>(function(){var q=new URLSearchParams(location.search).get('rot');function set(){var r=document.documentElement;r.classList.remove('rot90','rot-90');var land=innerWidth>innerHeight;var d=q===null?'0':q;if(land&&d==='90')r.classList.add('rot90');if(land&&d==='-90')r.classList.add('rot-90');}set();addEventListener('resize',set);})();</script>
 </head><body>
