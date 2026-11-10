@@ -460,8 +460,8 @@ html.rot-90 .tv.live{transform-origin:top left;transform:rotate(-90deg) translat
     const one=list.length===1, b=list[0];
     const first=n=>esc(String(n).split(' ')[0]);
     if(one) return '<span class="ey">'+esc(b.c.time+' '+b.c.name)+'</span><div class="bdh">Happy birthday,<br><span class="grad">'+first(b.name)+'.</span></div>'+
-      (b.n?'<div class="bdx stag" style="animation-delay:.4s">Class <b data-n="'+b.n+'">'+b.n+'</b> and birthday burpees.<br>What a day.</div>':'<div class="bdx stag" style="animation-delay:.4s">Birthday burpees incoming.</div>');
-    return '<span class="ey">Birthdays today</span><div class="bdh">Happy<br><span class="grad">birthday,</span></div><div class="names">'+list.map((x,i)=>'<div class="stag" style="animation-delay:'+(.25+i*.15)+'s">'+esc(x.name)+'<small class="ct">'+esc(x.c.time)+'</small></div>').join('')+'</div><div class="bdx stag" style="animation-delay:.8s">Birthday burpees incoming.</div>';
+      (b.n?'<div class="bdx stag" style="animation-delay:.4s"><b data-n="'+b.n+'">'+b.n+'</b>th class today, too.<br>Birthday burpees: you know the drill.</div>':'<div class="bdx stag" style="animation-delay:.4s">Birthday burpees: you know the drill.</div>');
+    return '<span class="ey">Birthdays today</span><div class="bdh">Happy<br><span class="grad">birthday,</span></div><div class="names">'+list.map((x,i)=>'<div class="stag" style="animation-delay:'+(.25+i*.15)+'s">'+esc(x.name)+'<small class="ct">'+esc(x.c.time)+'</small></div>').join('')+'</div><div class="bdx stag" style="animation-delay:.8s">Birthday burpees: you know the drill.</div>';
   }
   let BDAYS=[];
   let LB=null;
