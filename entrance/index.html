@@ -223,6 +223,49 @@ html.rot-90 .tv.live{transform-origin:top left;transform:rotate(-90deg) translat
 .bgs .bd{background:#121212}
 .tv .band,.tv.mist .band{background:#121212}
 .tv:not(.mist) .band{border-top:1px solid rgba(255,255,255,.14)}
+/* ---------- v14 slides (10 Nov) ---------- */
+.chips{display:flex;flex-wrap:wrap;gap:2cqw}
+.chip{font-size:3.2cqw;font-weight:500;padding:1.4cqw 3cqw;border-radius:99px;border:1px solid var(--hl)}
+.chip.hot{background:linear-gradient(100deg,#FF6907,#ffb36b);color:#121212;border-color:transparent}
+.hyc{font-size:13cqw;font-weight:500;letter-spacing:-.055em;line-height:.92;margin-top:3.6cqw;text-wrap:balance}
+.vibe{font-size:5cqw;line-height:1.25;margin-top:4cqw;color:var(--fs);max-width:80cqw}
+.coachrow{display:flex;align-items:center;gap:3.6cqw;margin-top:auto;margin-bottom:5cqw}
+.coachrow img{width:22cqw;height:22cqw;border-radius:50%;object-fit:cover;flex:none;box-shadow:0 0 0 .8cqw #121212,0 0 0 1.2cqw rgba(255,255,255,.18);background:#2a2a28}
+.coachrow b{display:block;font-size:5.6cqw;font-weight:500;letter-spacing:-.02em}
+.coachrow span{display:block;font-size:3.4cqw;color:var(--fs);margin-top:.6cqw}
+.hychips{margin-bottom:2cqw}
+.crew{display:grid;grid-template-columns:1fr 1fr;gap:0 4cqw;margin-top:4cqw}
+.crew div{font-size:4.5cqw;font-weight:500;letter-spacing:-.02em;padding:1.8cqw 0;border-top:1px solid var(--hl);display:flex;align-items:center;gap:1.6cqw;white-space:nowrap;overflow:hidden}
+.crew i{font-style:normal;font-size:2.1cqw;font-weight:700;letter-spacing:.08em;padding:.5cqw 1.4cqw;border-radius:99px;background:#121212;color:#fff}
+.crew i.o{background:linear-gradient(100deg,#FF6907,#ffb36b);color:#121212}
+.find{margin-top:auto;font-size:3.4cqw;color:var(--fs);padding-top:3cqw}
+.pocard{flex:1;margin:2cqw 0 1cqw;border:1px solid var(--hl);border-radius:3cqw;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:6cqw 5cqw}
+.pocard .pn{font-size:38cqw;font-weight:500;letter-spacing:-.07em;line-height:.8;font-variant-numeric:tabular-nums}
+.pocard .pn small{font-size:12cqw;letter-spacing:-.03em;margin-left:1cqw}
+.pocard .pw{font-size:4.4cqw;letter-spacing:.16em;text-transform:uppercase;font-weight:500;color:var(--fs);margin-top:4cqw}
+.pocard .pp{font-size:11cqw;font-weight:500;letter-spacing:-.045em;margin-top:5cqw;line-height:1}
+.pocard .pt{font-size:3.2cqw;color:var(--fs);margin-top:5cqw}
+.lbrows{margin-top:4cqw;display:flex;flex-direction:column}
+.lbrows div{display:grid;grid-template-columns:9cqw 1fr auto;align-items:baseline;padding:2.6cqw 0;border-top:1px solid var(--hl);font-size:5cqw;font-weight:500;letter-spacing:-.02em}
+.lbrows div span:first-child{font-size:3.4cqw;color:var(--fs);font-variant-numeric:tabular-nums}
+.lbrows div span:last-child{font-variant-numeric:tabular-nums}
+.lbrows div.one{font-size:6.4cqw}
+.lbrows div.one span:last-child{background:linear-gradient(100deg,#FF6907,#ffb36b);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lbcta{margin-top:auto;font-size:4.4cqw;font-weight:500;letter-spacing:-.02em;line-height:1.25;padding-top:4cqw}
+.lbcta span{display:block;font-size:3.2cqw;font-weight:400;color:var(--fs);margin-top:1.2cqw}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:0 5cqw;margin-top:6cqw}
+.stats div{border-top:1px solid var(--hl);padding:3.4cqw 0 4cqw}
+.stats b{display:block;font-size:17cqw;font-weight:500;letter-spacing:-.06em;line-height:.85;font-variant-numeric:tabular-nums}
+.stats span{font-size:3.2cqw;color:var(--fs)}
+/* final 5-minute takeover */
+.take{position:absolute;inset:0;z-index:6;background:#121212;color:#fff;display:none;flex-direction:column;justify-content:center;padding:0 7cqw}
+.tv.taking .take{display:flex}
+.tv.taking canvas{visibility:hidden}
+.take .ey{color:rgba(255,255,255,.55)}
+.take .tk{font-size:34cqw;font-weight:500;letter-spacing:-.07em;line-height:.8;margin:6cqw 0;font-variant-numeric:tabular-nums}
+.take .tgo{font-size:7cqw;font-weight:500;letter-spacing:-.03em;line-height:1.1}
+.take .ttrack{position:absolute;left:7cqw;right:7cqw;bottom:10cqw;height:1cqw;border-radius:1cqw;background:rgba(255,255,255,.12);overflow:hidden}
+.take .ttrack i{display:block;height:100%;width:0;background:linear-gradient(90deg,#FF6907,#ffb36b);transition:width 1s linear}
 </style>
 <script>(function(){var q=new URLSearchParams(location.search).get('rot');function set(){var r=document.documentElement;r.classList.remove('rot90','rot-90');var land=innerWidth>innerHeight;var d=q===null?'0':q;if(land&&d==='90')r.classList.add('rot90');if(land&&d==='-90')r.classList.add('rot-90');}set();addEventListener('resize',set);})();</script>
 </head><body>
@@ -242,7 +285,13 @@ html.rot-90 .tv.live{transform-origin:top left;transform:rotate(-90deg) translat
       <div class="slide" data-slide="ft"></div>
       <div class="slide qt" data-slide="qt"></div>
       <div class="slide" data-slide="sc"></div>
+      <div class="slide" data-slide="hy"></div>
+      <div class="slide" data-slide="cr"></div>
+      <div class="slide" data-slide="po"></div>
+      <div class="slide" data-slide="lk"></div>
+      <div class="slide" data-slide="pu"></div>
     </div>
+    <div class="take" data-take><span class="ey" data-take-cls></span><b class="tk grad" data-take-cd></b><div class="tgo">Grab your spot.<br>We start on time.</div><div class="ttrack"><i data-take-track></i></div></div>
     <div class="band">
       <div class="lab"><span data-lab></span><span class="live" data-live hidden><i></i><span data-livetxt></span></span></div>
       <div class="row">
@@ -286,8 +335,11 @@ html.rot-90 .tv.live{transform-origin:top left;transform:rotate(-90deg) translat
   let AGG={ms:[],ft:[]};
   function gather(fi){
     const rest=fi<0?[]:classes.slice(fi);
-    return { ms: rest.flatMap(c=>c.ms.map(m=>Object.assign({},m,{c}))).slice(0,4),
-             ft: rest.flatMap(c=>c.ft.map(n=>({name:n,c}))).slice(0,4) };
+    const all=rest.flatMap(c=>(c.ms||[]).map(m=>Object.assign({},m,{c})));
+    const big=all.filter(m=>m.yr||m.n>=50).sort((a,b)=>(b.yr?0:b.n)-(a.yr?0:a.n))[0]||null;
+    POSTER=big;
+    return { ms: all.filter(m=>m!==big).slice(0,4),
+             ft: rest.flatMap(c=>(c.ft||[]).map(n=>({name:n,c}))).slice(0,4) };
   }
   function renderSlides(){
     const one=a=>a.length&&a.every(x=>x.c===a[0].c);
@@ -304,9 +356,15 @@ html.rot-90 .tv.live{transform-origin:top left;transform:rotate(-90deg) translat
     const T=tnow(), s=T.s;
     if(T.date!==curDate){curDate=T.date;load(T.date);curFocus=-1;}
     const fi=classes.findIndex(c=>c.start>s), c=fi<0?null:classes[fi];
-    AGG = gather(fi); mode = !c ? 'closed' : ((AGG.ms.length||AGG.ft.length)?'normal':'quiet');
+    AGG = gather(fi); mode = !c ? 'closed' : ((AGG.ms.length||AGG.ft.length||POSTER)?'normal':'quiet');
     const key=mode+fi;
     if(key!==curFocus){curFocus=key;curIdx=fi;if(c)renderSlides();slideIdx=-1;showSlide();}
+    const taking = !!c && c.start-s<=300 && c.start-s>0;
+    tvs.forEach(({el})=>{
+      el.classList.toggle('taking',taking);
+      if(taking){ el.querySelector('[data-take-cls]').textContent=c.name+(c.coach?' with Coach '+c.coach:''); el.querySelector('[data-take-cd]').textContent=fmtCd(c.start-s);
+        el.querySelector('[data-take-track]').style.width=Math.min(100,100*(1-(c.start-s)/300))+'%'; }
+    });
     const prev = fi>0?classes[fi-1]:(fi<0&&classes.length?classes[classes.length-1]:null);
     const started = !!prev && s>=prev.start && s<prev.start+(prev.dur||60)*60;
     tvs.forEach(({el})=>{
@@ -358,32 +416,98 @@ html.rot-90 .tv.live{transform-origin:top left;transform:rotate(-90deg) translat
   function fitAll(el){ el.querySelectorAll('.slide').forEach(fit); }
   if(document.fonts && document.fonts.ready) document.fonts.ready.then(()=>tvs.forEach(({el})=>fitAll(el)));
   addEventListener('resize',()=>tvs.forEach(({el})=>fitAll(el)));
+  // ----- vibe lines (from each class description, approved 10 Nov) -----
+  const VIBES=[[/SIMULATION|COMPETITION/,"Run. Race. Repeat. Train like it's race day."],[/HYROX STRENGTH/,'Push the sled. Pull your weight.'],
+    [/HYROX|GAUNTLET/,'High reps, high sweat. Build your race engine.'],[/HYBRID/,'75 minutes. Lift heavy, finish strong. Experienced only.'],
+    [/BOOTCAMP/,'Cardio bursts, strength, every muscle. No coasting.'],[/SPEED/,'Sprints, agility, reaction. Train like an athlete.'],
+    [/STRENGTH CONDITIONING|POWER/,'Loaded carries, explosive lifts. Strong under fatigue.'],[/UPPER BODY/,'Chest, shoulders, back, arms. Leave stronger.'],
+    [/LOWER BODY/,'Glutes, quads, hamstrings. Big lifts, real control.'],[/FULL BODY/,'Legs to shoulders. Muscle, strength, power.'],
+    [/BOOTY/,'Glutes, all class long.'],[/BARBELL/,'Squat, bench, deadlift. Technique first, PRs next.'],[/BOXING/,'Real boxing. Sharper every week.'],
+    [/ABS/,'45 minutes. Core, start to finish.'],[/STRETCH|MOBILITY/,'Move better. Feel looser walking out.']];
+  const vibe=c=>{const k=((c.type||'')+' '+c.name).toUpperCase();const v=VIBES.find(x=>x[0].test(k));return v?v[1]:'';};
+  const esc=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]));
+  function splitName(n){
+    if(n.includes(' · ')){const i=n.indexOf(' · ');return esc(n.slice(0,i))+' ·<br><span class="grad">'+esc(n.slice(i+3))+'</span>';}
+    const w=n.split(' ');if(w.length<2)return '<span class="grad">'+esc(n)+'</span>';
+    let h=Math.ceil(w.length/2); if(w[h-1]==='&')h--; return esc(w.slice(0,h).join(' '))+'<br><span class="grad">'+esc(w.slice(h).join(' '))+'</span>';
+  }
+  const dayPart=s=>s<12*3600?"This morning's":s<17*3600?"This afternoon's":"Tonight's";
+  function renderHype(c){
+    const chips=[];
+    if(c.cap>0 && typeof c.spots==='number'){ if(c.spots===0) chips.push('<span class="chip hot">Full house</span>'); else if(c.spots<=5) chips.push('<span class="chip hot">'+c.spots+' spot'+(c.spots===1?'':'s')+' left</span>'); else chips.push('<span class="chip">'+c.spots+' spots open</span>'); }
+    if(c.booked>0) chips.push('<span class="chip">'+c.booked+' booked</span>');
+    if(c.ms&&c.ms.length) chips.push('<span class="chip">'+c.ms.length+' milestone'+(c.ms.length>1?'s':'')+' inside</span>');
+    if(c.ft&&c.ft.length) chips.push('<span class="chip">'+c.ft.length+' first-timer'+(c.ft.length>1?'s':'')+'</span>');
+    return '<span class="ey">Up next · '+esc(c.time)+'</span><div class="hyc">'+splitName(c.name)+'</div>'+(vibe(c)?'<div class="vibe stag" style="animation-delay:.3s">'+vibe(c)+'</div>':'')+
+      (c.coach?'<div class="coachrow stag" style="animation-delay:.5s">'+(c.photo?'<img src="'+esc(c.photo)+'" alt="">':'')+'<div><b>Coach '+esc(c.coach)+'</b>'+(c.ig?'<span>@'+esc(c.ig)+'</span>':'')+'</div></div>':'<div class="coachrow"></div>')+
+      (chips.length?'<div class="chips hychips stag" style="animation-delay:.7s">'+chips.join('')+'</div>':'');
+  }
+  function renderCrew(c){
+    const tagged=c.crew.filter(x=>x.tag), rest=c.crew.filter(x=>!x.tag), all=tagged.concat(rest);
+    const max=14, show=all.length>max?all.slice(0,max-1):all;
+    const cells=show.map(x=>'<div>'+esc(x.name)+(x.tag?' <i'+(x.tag==='NEW'?'':' class="o"')+'>'+esc(x.tag)+'</i>':'')+'</div>').join('')+(all.length>max?'<div>+'+(all.length-max+1)+' more</div>':'');
+    return '<span class="ey">'+esc(c.time+' '+c.name)+'</span><h3>'+dayPart(c.start)+' <span class="grad">crew.</span></h3><div class="crew">'+cells+'</div><div class="find">Find your name. Snap it. Tag @fitfactoryto</div>';
+  }
+  function renderPoster(m){
+    return '<div class="pocard"><div class="pn grad" data-n="'+m.n+'">'+m.n+(m.yr?'<small>yr</small>':'')+'</div><div class="pw">'+(m.yr?(m.n===1?'Year':'Years')+' with Fit Factory':'Classes at Fit Factory')+'</div><div class="pp">'+esc(m.name)+'</div><div class="pt">'+esc(m.c.time+' '+m.c.name)+' · Snap this. Tag @fitfactoryto</div></div>';
+  }
+  let LB=null;
+  const LB_URL='https://hiuhhdgecehygzaxwfxx.supabase.co/functions/v1/locked-in-board';
+  function pullLB(){ getJ(LB_URL).then(j=>{ if(j&&j.top10) LB=j; }).catch(()=>{}); }
+  const lbOn=()=>LB && LB.top10 && LB.top10.length>=3 && curDate<='2026-12-20';
+  function renderLB(){
+    const rows=LB.top10.slice(0,5).map((r,i)=>'<div'+(i===0?' class="one"':'')+'><span>'+r.rank+'</span><span>'+esc(r.name)+'</span><span>'+r.points+'</span></div>').join('');
+    return '<span class="ey">Locked In · Week '+(LB.week||1)+' of 6 · live</span><h3>Who\'s <span class="grad">locked in?</span></h3><div class="lbrows">'+rows+'</div><div class="lbcta">Join Locked In in the app. Members join free.<span>Most points wins.</span></div>';
+  }
+  function pulse(){
+    const t={b:0,n:classes.length,m:0,f:0}; classes.forEach(c=>{t.b+=c.booked||0;t.m+=(c.ms||[]).length;t.f+=(c.ft||[]).length;}); return t;
+  }
+  function renderPulse(){
+    const p=pulse(), cells=[[p.b,'booked in today'],[p.n,'classes today']].concat(DATA.names===false?[]:[[p.m,'milestones'],[p.f,'first-timers']]);
+    return '<span class="ey">Today at Fit Factory</span><h3>The building is <span class="grad">buzzing.</span></h3><div class="stats">'+cells.map(x=>'<div><b data-n="'+x[0]+'">'+x[0]+'</b><span>'+x[1]+'</span></div>').join('')+'</div><div class="find">You\'re one of them.</div>';
+  }
+  const DURS={hy:10000,cr:12000,po:9000,ms:10000,ft:10000,lk:10000,pu:8000,sc:9000,qt:10000};
+  const INK=['hy','po','ms','lk','qt'];
+  let ORDER=[], loopN=0, POSTER=null;
+  function buildOrder(){
+    const c=classes[curIdx];
+    if(mode==='closed' || !c) return ['qt'];
+    const named=DATA.names!==false, o=['hy'];
+    if(named && c.crew && c.crew.length>=3) o.push('cr');
+    if(POSTER) o.push('po');
+    if(AGG.ms.length) o.push('ms');
+    if(AGG.ft.length) o.push('ft');
+    if(lbOn()) o.push('lk');
+    o.push(loopN%2 && pulse().b>0 ? 'pu' : 'sc');
+    return o;
+  }
   function showSlide(){
     clearTimeout(timer);
     const c=classes[curIdx];
-    let order = mode==='closed' ? ['qt'] : mode==='normal' ? [AGG.ms.length?'ms':null,AGG.ft.length?'ft':null,'sc'].filter(Boolean) : ['sc'];
-    const qt = '<h3>That\'s a <span class="grad">wrap.</span></h3><div class="note">See you tomorrow.</div>';
-    const sc = mode==='closed' ? '' : renderSchedule();
+    if(slideIdx===-1 || slideIdx+1>=ORDER.length){ if(slideIdx!==-1) loopN++; ORDER=buildOrder(); slideIdx=-1; }
+    const order=ORDER;
+    const html={ qt:'<h3>That\'s a <span class="grad">wrap.</span></h3><div class="note">See you tomorrow.</div>',
+      sc: mode==='closed'?'':renderSchedule(), hy: c?renderHype(c):'', cr: c&&c.crew?renderCrew(c):'',
+      po: POSTER?renderPoster(POSTER):'', lk: lbOn()?renderLB():'', pu: renderPulse() };
     tvs.forEach(({el})=>{
-      el.querySelector('[data-slide="qt"]').innerHTML=qt; el.querySelector('[data-slide="sc"]').innerHTML=sc;
+      for(const k in html){ const sl=el.querySelector('[data-slide="'+k+'"]'); if(order.includes(k)) sl.innerHTML=html[k]; }
       const bars=el.querySelector('.bars'); bars.hidden=order.length<2;
       if(bars.children.length!==order.length) bars.innerHTML=order.map(()=>'<i><b></b></i>').join('');
     });
     if(slideIdx===-1 && window.__START && order.indexOf(window.__START)>0) slideIdx=order.indexOf(window.__START)-1;  // drafts page only
-    slideIdx=(slideIdx+1)%order.length; const key=order[slideIdx];
+    slideIdx=slideIdx+1; const key=order[slideIdx];
     tvs.forEach(({el,cf})=>{
       fitAll(el);
       el.querySelectorAll('.slide').forEach(x=>x.classList.toggle('on',x.dataset.slide===key));
-      const light = BG==='mist' ? true : !(key==='ms' || key==='qt');   // A: milestones + wrap on Ink, everything else Mist. B: all Mist
-      el.classList.toggle('mist', light);
-      const mk=el.querySelector('.mark'); mk.classList.remove('draw'); void mk.offsetWidth; mk.classList.add('draw');
-      [...el.querySelectorAll('.bars i')].forEach((b,i)=>{b.className='';void b.offsetWidth;if(i<slideIdx)b.className='done';if(i===slideIdx)b.className='run';});
-      if(key==='ms'){ countUp(el); if(!reduce) setTimeout(()=>cf.burst(),500); }
+      el.classList.toggle('mist', BG==='mist' ? true : !INK.includes(key));
+      [...el.querySelectorAll('.bars i')].forEach((b,i)=>{b.className='';b.style.setProperty('--dur',(DURS[order[i]]||DUR)+'ms');void b.offsetWidth;if(i<slideIdx)b.className='done';if(i===slideIdx)b.className='run';});
+      if(key==='ms'||key==='po'||key==='pu'){ countUp(el,key); }
+      if((key==='ms'||key==='po') && !reduce) setTimeout(()=>cf.burst(),500);
     });
-    if(order.length>1 && !reduce) timer=setTimeout(showSlide,DUR);
+    if(!reduce && !(order.length===1 && mode==='closed')) timer=setTimeout(showSlide,DURS[key]||DUR);
   }
-  function countUp(el){
-    el.querySelectorAll('[data-slide="ms"] [data-n]').forEach(n=>{
+  function countUp(el,key){
+    el.querySelectorAll('[data-slide="'+(key||'ms')+'"] [data-n]').forEach(n=>{
       const target=+n.dataset.n, small=n.querySelector('small'), sm=small?small.outerHTML:'';
       if(reduce||target<5){return}
       const s=performance.now();(function f(t){const k=Math.min(1,(t-s)/1300);n.innerHTML=Math.round((1-Math.pow(1-k,3))*target)+sm;if(k<1)requestAnimationFrame(f)})(s);
@@ -418,7 +542,8 @@ html.rot-90 .tv.live{transform-origin:top left;transform:rotate(-90deg) translat
     getJ(LIVE).then(j=>{ if(!j||!j.days||!j.days.length) throw 0; use(j); })
       .catch(()=>getJ('data.json?_='+Date.now()).then(use).catch(()=>{}));
   }
-  pull(); setInterval(pull, 2*60*1000);   // every 2 minutes
+  pull(); setInterval(pull, 2*60*1000);
+  pullLB(); setInterval(pullLB, 5*60*1000);   // every 2 minutes
   // reload every 6 hours to pick up any design changes
   setTimeout(()=>location.reload(), 6*60*60*1000);
 
