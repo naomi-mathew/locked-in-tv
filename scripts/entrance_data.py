@@ -34,7 +34,8 @@ def main(days):
         day = {"date": str(d), "classes": []}
         for c in sorted(cl, key=lambda c: c["start_datetime"]):
             n = c["name"]; tags = [t["slug"] for t in c.get("class_tags",[])]
-            if "PSC" in n.upper() or "REFINED" in n.upper() or "psc" in tags: continue
+            ctype = ((c.get("class_type") or {}).get("name") or "").upper()
+            if any(w in (n.upper()+" "+ctype) for w in ("PSC","REFINED","REFORMER","PILATES")) or "psc" in tags: continue
             start = dt.datetime.fromisoformat(c["start_datetime"].replace("Z","+00:00")).astimezone(TZ)
             if start.date()!=d: continue
             res = get(f"{BASE}/reservations?class_session={c['id']}&include=user,user.tags&page_size=200", tok) if tok else {"data": [], "included": []}
