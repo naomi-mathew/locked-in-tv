@@ -273,6 +273,31 @@ html.rot-90 .tv.live{transform-origin:top left;transform:rotate(-90deg) translat
 .tv .grad{padding-right:.12em;margin-right:-.12em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
 .pocard .pn,.take .tk,.bdx b,.lbrows div.one span:last-child{padding-right:.12em;margin-right:-.12em;display:inline-block}
 .pocard .pn,.take .tk{padding-left:.04em}
+/* birthday blow-out + party poppers */
+.mcake{display:inline-block;height:17cqw;width:auto;vertical-align:-.04em;margin-left:3cqw;overflow:visible;color:var(--fg)}
+.flame{transform-box:fill-box;transform-origin:50% 100%;animation:flick 1.6s ease-in-out infinite alternate}
+@keyframes flick{0%{transform:scale(1,1) rotate(-2deg)}35%{transform:scale(.92,1.08) rotate(2deg)}70%{transform:scale(1.05,.94) rotate(-1deg)}100%{transform:scale(.97,1.04) rotate(1.5deg)}}
+/* 8 s loop. 0-3.0 s burn; 3.0-3.5 s wind + lean; 3.5 s out; smoke 3.5-5.5 s; poppers fire 3.9 s; relight 7.4 s */
+.pout{transform-box:fill-box;transform-origin:50% 100%;animation:pblow 8s ease-in-out infinite}
+@keyframes pblow{0%,37%{opacity:1;transform:none}40%{opacity:1;transform:skewX(-28deg) scaleY(1.35) translateX(2px)}43%{opacity:.6;transform:skewX(-40deg) scaleY(.6) translateX(4px)}45%,92%{opacity:0;transform:scale(.1) translateX(5px)}97%,100%{opacity:1;transform:none}}
+.wind{stroke:rgba(255,255,255,.75);stroke-width:2;stroke-dasharray:60;stroke-dashoffset:60;opacity:0;animation:pwind 8s ease-out infinite}
+@keyframes pwind{0%,35%{opacity:0;stroke-dashoffset:60;transform:translateX(0)}38%{opacity:1}43%{stroke-dashoffset:0;transform:translateX(18px)}48%,100%{opacity:0;stroke-dashoffset:0;transform:translateX(26px)}}
+.psmoke{stroke:rgba(255,255,255,.7);stroke-width:2.2;opacity:0;animation:psmoke 8s ease-out infinite}
+@keyframes psmoke{0%,44%{opacity:0;transform:translateY(0)}48%{opacity:1}70%{opacity:0;transform:translateY(-16px)}100%{opacity:0}}
+.popper{position:absolute;bottom:0;width:12cqw;height:12cqw;z-index:0}
+[data-slide="bd"] .bdx{margin-bottom:15cqw}
+[data-slide="bd"] .bdh,[data-slide="bd"] .bdx,[data-slide="bd"] .ey,[data-slide="bd"] .names{position:relative;z-index:1}
+.popper.l{left:-1cqw}
+.popper.r{right:-1cqw;transform:scaleX(-1)}
+.popper svg{width:100%;height:100%;overflow:visible;transform-origin:10% 90%;animation:precoil 8s ease-out infinite}
+@keyframes precoil{0%,48%{transform:none}50%{transform:rotate(-8deg) scale(.9)}56%,100%{transform:none}}
+.popper .flash{opacity:0;animation:pflash 8s ease-out infinite}
+@keyframes pflash{0%,48%{opacity:0}50%{opacity:1}56%,100%{opacity:0}}
+.shot{position:absolute;left:68%;top:22%;width:0;height:0}
+.shot i{position:absolute;width:2cqw;height:1cqw;border-radius:.3cqw;opacity:0;animation:pshot 8s cubic-bezier(.2,.8,.3,1) infinite;animation-delay:var(--sd)}
+@keyframes pshot{0%,48%{opacity:0;transform:translate(0,0) rotate(0)}49%{opacity:1;transform:translate(0,0) rotate(0)}62%{opacity:1;transform:translate(var(--sx),var(--sy)) rotate(260deg)}92%{opacity:.85;transform:translate(calc(var(--sx)*1.15),calc(var(--sy) + var(--fall))) rotate(700deg)}100%{opacity:0;transform:translate(calc(var(--sx)*1.15),calc(var(--sy) + var(--fall)))}}
+@media (prefers-reduced-motion:reduce){.pout,.wind,.psmoke,.popper svg,.popper .flash,.shot i{animation:none}}
+
 </style>
 <script>(function(){var q=new URLSearchParams(location.search).get('rot');function set(){var r=document.documentElement;r.classList.remove('rot90','rot-90');var land=innerWidth>innerHeight;var d=q===null?'0':q;if(land&&d==='90')r.classList.add('rot90');if(land&&d==='-90')r.classList.add('rot-90');}set();addEventListener('resize',set);})();</script>
 </head><body>
@@ -464,12 +489,29 @@ html.rot-90 .tv.live{transform-origin:top left;transform:rotate(-90deg) translat
   function renderPoster(m){
     return '<div class="pocard"><div class="pn grad" data-n="'+m.n+'">'+m.n+(m.yr?'<small>yr</small>':'')+'</div><div class="pw">'+(m.yr?(m.n===1?'Year':'Years')+' with Fit Factory':'Classes at Fit Factory')+'</div><div class="pp">'+esc(m.name)+'</div><div class="pt">'+esc(m.c.time+' '+m.c.name)+'</div></div>';
   }
+  // birthday: mini cake whose candles get blown out, then two party poppers fire confetti (8 s loop, approved 11 Nov)
+  function cakeSVG(){
+    const fl=[30,44,58].map(x=>'<g class="pout"><path class="flame" d="M'+x+' 6c3.4 4.3 5 7.3 5 9.8a5 5 0 0 1-10 0c0-2.5 1.6-5.5 5-9.8z" fill="url(#pfl)" stroke="none"/></g>').join('');
+    const sm=[30,44,58].map(x=>'<path class="psmoke" d="M'+x+' 18c-4-4 4-7 0-11s4-7 0-11"/>').join('');
+    return '<svg class="mcake" viewBox="0 0 88 86" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+
+      '<defs><linearGradient id="pfl" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#FF6907"/><stop offset="1" stop-color="#ffb36b"/></linearGradient></defs>'+
+      '<path d="M6 82h76"/><rect x="14" y="48" width="60" height="34" rx="5"/><path d="M14 58c5 0 5 5 10 5s5-5 10-5 5 5 10 5 5-5 10-5 5 5 10 5 5-5 10-5"/><path d="M30 48V26M44 48V26M58 48V26"/>'+
+      '<g class="wind"><path d="M-30 10c10-4 22-4 34 0"/><path d="M-38 20c12-4 26-4 40 0"/><path d="M-26 30c8-3 18-3 28 0"/></g>'+sm+fl+'</svg>';
+  }
+  function poppersHTML(){
+    const cols=['#FF6907','#ffb36b','#ffffff','#8f8f8a'];
+    const shot=()=>{let o='';for(let i=0;i<24;i++){const a=(-62+Math.random()*24)*Math.PI/180,d=34+Math.random()*28;
+      o+='<i style="background:'+cols[i%4]+';--sx:'+(Math.cos(a)*d).toFixed(1)+'cqw;--sy:'+(Math.sin(a)*d).toFixed(1)+'cqw;--fall:'+(22+Math.random()*18).toFixed(1)+'cqw;--sd:'+(Math.random()*.08).toFixed(2)+'s"></i>';}return o;};
+    const one=side=>'<div class="popper '+side+'"><svg viewBox="0 0 60 60" aria-hidden="true"><path d="M6 54L22 14l24 24z" fill="#FF6907"/><path d="M12 40l7 5M16 30l11 8M20 21l12 9" stroke="#121212" stroke-width="3" stroke-linecap="round"/>'+
+      '<g class="flash" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><path d="M38 20l8-8"/><path d="M42 28l11-2"/><path d="M30 14l2-11"/></g></svg><div class="shot">'+shot()+'</div></div>';
+    return one('l')+one('r');
+  }
   function renderBday(list){
     const one=list.length===1, b=list[0];
     const first=n=>esc(String(n).split(' ')[0]);
-    if(one) return '<span class="ey">'+esc(b.c.time+' '+b.c.name)+'</span><div class="bdh">Happy birthday,<br><span class="grad">'+first(b.name)+'.</span></div>'+
+    if(one) return poppersHTML()+'<span class="ey">'+esc(b.c.time+' '+b.c.name)+'</span><div class="bdh">Happy birthday,<br><span class="grad">'+first(b.name)+'.</span>'+cakeSVG()+'</div>'+
       (b.n?'<div class="bdx stag" style="animation-delay:.4s"><b data-n="'+b.n+'">'+b.n+'</b>th class today, too.<br>Birthday burpees: you know the drill.</div>':'<div class="bdx stag" style="animation-delay:.4s">Birthday burpees: you know the drill.</div>');
-    return '<span class="ey">Birthdays today</span><div class="bdh">Happy<br><span class="grad">birthday,</span></div><div class="names">'+list.map((x,i)=>'<div class="stag" style="animation-delay:'+(.25+i*.15)+'s">'+esc(x.name)+'<small class="ct">'+esc(x.c.time)+'</small></div>').join('')+'</div><div class="bdx stag" style="animation-delay:.8s">Birthday burpees: you know the drill.</div>';
+    return poppersHTML()+'<span class="ey">Birthdays today</span><div class="bdh">Happy<br><span class="grad">birthday,</span>'+cakeSVG()+'</div><div class="names">'+list.map((x,i)=>'<div class="stag" style="animation-delay:'+(.25+i*.15)+'s">'+esc(x.name)+'<small class="ct">'+esc(x.c.time)+'</small></div>').join('')+'</div><div class="bdx stag" style="animation-delay:.8s">Birthday burpees: you know the drill.</div>';
   }
   let BDAYS=[];
   let LB=null;
@@ -524,7 +566,8 @@ html.rot-90 .tv.live{transform-origin:top left;transform:rotate(-90deg) translat
       el.classList.toggle('mist', BG==='mist' ? true : !INK.includes(key));
       [...el.querySelectorAll('.bars i')].forEach((b,i)=>{b.className='';b.style.setProperty('--dur',(DURS[order[i]]||DUR)+'ms');void b.offsetWidth;if(i<slideIdx)b.className='done';if(i===slideIdx)b.className='run';});
       if(key==='ms'||key==='po'||key==='pu'||key==='bd'){ countUp(el,key); }
-      if((key==='ms'||key==='po'||key==='bd') && !reduce) setTimeout(()=>cf.burst(),500);
+      clearInterval(el.__cf);
+      if((key==='ms'||key==='po') && !reduce){ setTimeout(()=>cf.burst(),400); el.__cf=setInterval(()=>cf.rain(18),1800); }   // confetti for the whole slide (birthdays use party poppers)
     });
     if(!reduce && !(order.length===1 && mode==='closed')) timer=setTimeout(showSlide,DURS[key]||DUR);
   }
@@ -542,9 +585,14 @@ html.rot-90 .tv.live{transform-origin:top left;transform:rotate(-90deg) translat
     const pal=()=>light()?['#121212','#5e5e5b','#FF6907','#ffa463','#cfcfca']:['#ffffff','#f4f4f2','#FF6907','#ffa463','#8f8f8a'];
     function size(){const r=canvas.getBoundingClientRect(),d=devicePixelRatio||1;canvas.width=r.width*d;canvas.height=r.height*d}
     size();addEventListener('resize',size);
+    function rain(n){
+      const W=canvas.width,H=canvas.height,cols=pal();
+      for(let i=0;i<n;i++) parts.push({x:W*Math.random(),y:-H*.02-Math.random()*H*.08,vx:(Math.random()-.5)*W*.004,vy:H*(.002+Math.random()*.003),w:W*(.012+Math.random()*.012),h:W*(.006+Math.random()*.006),r:Math.random()*6,vr:(Math.random()-.5)*.25,c:cols[Math.random()*cols.length|0],l:Math.random()*10});
+      if(!raf)loop();
+    }
     function burst(){
       size();const W=canvas.width,H=canvas.height,cols=pal();
-      for(let i=0;i<70;i++){const a=-Math.PI/2+(Math.random()-.5)*2.4,sp=W*(.01+Math.random()*.022);
+      for(let i=0;i<90;i++){const a=-Math.PI/2+(Math.random()-.5)*2.4,sp=W*(.01+Math.random()*.022);
         parts.push({x:W*(.25+Math.random()*.5),y:H*.22,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,w:W*(.012+Math.random()*.012),h:W*(.006+Math.random()*.006),r:Math.random()*6,vr:(Math.random()-.5)*.25,c:cols[Math.random()*cols.length|0],l:Math.random()*10})}
       if(!raf)loop();
     }
@@ -552,7 +600,7 @@ html.rot-90 .tv.live{transform-origin:top left;transform:rotate(-90deg) translat
       for(const p of parts){p.vy+=H*.00032;p.vx*=.98;p.vy*=.992;p.x+=p.vx;p.y+=p.vy;p.r+=p.vr;p.l++;
         ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.r);ctx.scale(1,Math.cos(p.l*.12));ctx.fillStyle=p.c;ctx.globalAlpha=Math.max(0,Math.min(1,(H*.72-p.y)/(H*.2)));ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);ctx.restore()}
       parts=parts.filter(p=>p.y<H*.75);raf=parts.length?requestAnimationFrame(loop):null}
-    return {burst};
+    return {burst, rain};
   }
 
   // live data: GitHub refreshes data.json every ~10 minutes; check it every 2 minutes
